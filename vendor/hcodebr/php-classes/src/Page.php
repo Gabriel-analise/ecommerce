@@ -15,7 +15,7 @@ class Page {
 
         $config = array(
             "tpl_dir"       => $_SERVER["DOCUMENT_ROOT"]."/views/",
-            "cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views/cache/",
+            "cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
             "debug"         => false
         );
         Tpl::configure( $config );
@@ -36,7 +36,7 @@ class Page {
     }
 
     public function setTpl($name, $data = array(), $returnHTML = false) {
-        
+
         $this->setData($data);
 
         return $this->tpl->draw($name, $returnHTML);
