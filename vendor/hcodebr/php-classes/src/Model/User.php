@@ -11,7 +11,6 @@ class User extends Model{
     public static function login($login, $password) {
 
         $sql = new Sql();
-
         $results = $sql->select("SELECT * FROM tb_users WHERE deslogin = :LOGIN", array(
             ":LOGIN" => $login
         ));
@@ -25,8 +24,11 @@ class User extends Model{
 
             $user = new User();
             $user->setdata($data);
+
             $_SESSION[User::SESSION] = $user->getValues();
+
             return $user;
+            
         }else {
             throw new \Exception("Usuário inexistente ou senha inválida.");
         }
@@ -51,11 +53,13 @@ class User extends Model{
     }
 
     public static function listAll() {
+
         $sql = new Sql();
         return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson");
     }
 
     public function save() {
+
         $sql = new Sql();
         $result = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
             ":desperson"=>$this->getdesperson(),
@@ -69,7 +73,9 @@ class User extends Model{
     }
 
     public function get($iduser) {
+
         $sql = new Sql();
+
         $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.iduser = :iduser", array(
             ":iduser"=>$iduser
         ));
@@ -88,13 +94,13 @@ class User extends Model{
             ":nrphone"=>$this->getnrphone(),
             ":inadmin"=>$this->getinadmin()
         ));
+        
         $this->setData($result[0]);
     }
 
     public function delete() {
 
         $sql = new Sql();
-        
         $sql->query("CALL sp_users_delete(:iduser)", array(
             ":iduser"=>$this->getiduser()
         ));
